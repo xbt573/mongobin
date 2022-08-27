@@ -131,6 +131,7 @@ dist
 
 # Build
 build/
+build
 
 # Production config
 config/production.json
