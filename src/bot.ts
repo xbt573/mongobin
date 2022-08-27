@@ -26,13 +26,11 @@ export class PasteBot {
     }
 
     private async _startCommand(ctx: Context): Promise<void> {
-        /** @todo */
-        await ctx.reply('start message');
+        await ctx.reply('Hello! This bot acts like pastebin.com, just reply to text or document with /paste to paste it!');
     }
 
     private async _helpCommand(ctx: Context): Promise<void> {
-        /** @todo */
-        await ctx.reply('help message');
+        await ctx.reply('/paste - Paste text or document\n/get - Get paste by ID');
     }
 
     private async _pasteCommand(ctx: Context): Promise<void> {
