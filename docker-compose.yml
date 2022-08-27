@@ -16,8 +16,8 @@ services:
         restart: unless-stopped
 
         environment:
-            - MONGO_INITDB_ROOT_USERNAME: root
-            - MONGO_INITDB_ROOT_PASSWORD: passwd
+            - MONGO_INITDB_ROOT_USERNAME=root
+            - MONGO_INITDB_ROOT_PASSWORD=passwd
 
         volumes:
             - ./database:/data/db
