@@ -1,3 +1,4 @@
 export interface IPaste {
-    text: string;
+    text?: string;
+    document?: string;
 }

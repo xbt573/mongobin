@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 import { IPaste } from '../interfaces/IPaste';
 
 const pasteSchema = new mongoose.Schema<IPaste>({
-    text: { type: String, required: true },
+    text: String,
+    document: String
 }, {
     versionKey: false,
 });

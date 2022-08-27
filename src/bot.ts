@@ -36,19 +36,37 @@ export class PasteBot {
     }
 
     private async _pasteCommand(ctx: Context): Promise<void> {
-        let text: string;
-        if (ctx!.message!.reply_to_message) {
-            text = ctx!.message!.reply_to_message!.text!;
-        } else {
+        let text: string | undefined;
+        let document: string | undefined;
+
+        let gotPaste: boolean = false;
+
+        if (splitCommand(ctx!.message!.text!) != '') {
             text = splitCommand(ctx!.message!.text!);
+            gotPaste = true;
         }
 
-        if (!text) {
-            await ctx.reply('ID is not specified');
+        if (!gotPaste && ctx!.message!.reply_to_message?.text!) {
+            text = ctx!.message!.reply_to_message!.text!;
+            gotPaste = true;
+        }
+
+        if (!gotPaste && ctx!.message!.document!) {
+            document = ctx!.message!.document!.file_id!;
+            gotPaste = true;
+        }
+
+        if (!gotPaste && ctx!.message!.reply_to_message!.document!) {
+            document = ctx!.message!.reply_to_message!.document!.file_id!;
+            gotPaste = true;
+        }
+
+        if (!text && !document) {
+            await ctx.reply('No paste found');
             return;
         }
 
-        const paste = await Paste.create({ text });
+        const paste = await Paste.create({ text, document });
 
         await ctx.reply(paste._id.toString());
     }
@@ -72,6 +90,13 @@ export class PasteBot {
             return;
         }
 
-        await ctx.reply(paste.text);
+        if (paste.text) {
+            await ctx.reply(paste.text);
+            return;
+        }
+
+        if (paste.document) {
+            await ctx.replyWithDocument(paste.document);
+        }
     }
 }
