@@ -52,11 +52,21 @@ export class PasteBot {
         }
 
         if (!gotPaste && ctx!.message!.document!) {
+            if (ctx!.message!.document!.file_size! > 1048576) {
+                await ctx.reply('Document is bigger than 1Mb');
+                return;
+            }
+
             document = ctx!.message!.document!.file_id!;
             gotPaste = true;
         }
 
         if (!gotPaste && ctx!.message!.reply_to_message!.document!) {
+            if (ctx!.message!.reply_to_message!.document!.file_size! > 1048576) {
+                await ctx.reply('Document is bigger than 1Mb');
+                return;
+            }
+
             document = ctx!.message!.reply_to_message!.document!.file_id!;
             gotPaste = true;
         }
